@@ -64,3 +64,26 @@ print(avg_months_since)
 mean(three_parts_data$months_since_first_credit)
 sd(three_parts_data$months_since_first_credit)
 
+# Data Visualizations for Descriptive Analysis of Loan Amount
+
+# Graph shows us that a majority of people are within 5000 to 15000 loan amount
+ggplot(three_parts_data, aes(x = loan_amnt)) +
+  geom_histogram(binwidth = 2500, fill = "darkgreen", color = "black") +
+  labs(title = "Frequency Distribution of Loan Amounts", x = "Loan Amount", y = "Count")
+
+# Data Visualizations for Descriptive Analysis of Annual Income
+
+# Remove outliers first though the graph is still not as descriptive as I want it
+annual_income_no_outlier <- filter(three_parts_data, adjusted_annual_inc < 2e6)
+ggplot(annual_income_no_outlier, aes(x = adjusted_annual_inc)) +
+  geom_boxplot(fill = "darkgreen", color = "black") +
+  labs(title = "Frequency Distribution of Adjusted Annual Incomes", x = "Adjusted Annual Income", y = "Count")
+
+# Data Visualizations for Descriptive Analysis of Months Since First Credit
+
+# Graph shows us that a majority of people are within 100 to 300 months since first credit
+ggplot(three_parts_data, aes(x = months_since_first_credit)) +
+  geom_histogram(binwidth = 50, fill = "darkgreen", color = "black") +
+  labs(title = "Frequency Distribution of Months Since First Credit", x = "Months Since First Credit", y = "Count")
+
+
