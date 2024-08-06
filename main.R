@@ -86,4 +86,28 @@ ggplot(three_parts_data, aes(x = months_since_first_credit)) +
   geom_histogram(binwidth = 50, fill = "darkgreen", color = "black") +
   labs(title = "Frequency Distribution of Months Since First Credit", x = "Months Since First Credit", y = "Count")
 
+# Machine Learning
 
+# Multiple regression
+multiple_reg_data <- select(three_parts_data, -loanID)
+
+plot(multiple_reg_data)
+multiple_reg_loan <- lm(loan_default ~ loan_amnt + adjusted_annual_inc + months_since_first_credit, data = multiple_reg_data)
+summary(multiple_reg_loan)
+
+# Naive Bayes
+library(caret)
+library(e1071)
+three_parts_data$loan_default <- factor(three_parts_data$loan_default, levels = c(0,1), labels = c("False", "True"))
+
+# Split the data for training set and the test set
+#Creates a series of test/training partitions from Carat
+indxTrain <- createDataPartition(y = three_parts_data$loan_default,p = 0.75,list = FALSE)
+training <- data[indxTrain,]
+testing <- data[-indxTrain,]
+
+# Making the Naive Bayes model
+naivebayes_loan <- naiveBayes(loan_default ~ loan_amnt + adjusted_annual_inc + months_since_first_credit, data = training)
+
+# Predict with the testing model
+predict <- predict(naivebayes_loan, newdata = testing)
